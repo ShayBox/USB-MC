@@ -5,6 +5,7 @@ A simple Go program that:
 2. Downloads the old Minecraft launcher  
 3. Launches the old Minecraft launcher with the `--workDir .minecraft` argument  
 
-Note: You need `java`
+> This requires the Java Runtime (Oracle, OpenJDK, or compatible)  
+> To check if you have java, Open a powershell/terminal window and type `java -version`
 
-Download from [Here](https://github.com/ShayBox/USB-MC/releases/latest)
+[Download](https://github.com/ShayBox/USB-MC/releases/latest)
