@@ -9,13 +9,13 @@ import (
 
 func main() {
 	directory := ".minecraft/"
-	if !directoryExists(directory) {
+	if !DirectoryExists(directory) {
 		println("Creating directory")
 		os.MkdirAll(directory, os.ModePerm)
 	}
 
 	file := "Minecraft.jar"
-	if !fileExists(directory + file) {
+	if !FileExists(directory + file) {
 		println("Downloading launcher")
 		DownloadFile(directory+file, "http://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar")
 	}
@@ -32,9 +32,9 @@ func main() {
 	cmd.Wait()
 }
 
-// directoryExists checks if a directory exists and is not a dirfileectory before we
+// DirectoryExists checks if a directory exists and is not a dirfileectory before we
 // try using it to prevent further errors.
-func directoryExists(filename string) bool {
+func DirectoryExists(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {
 		return false
@@ -42,9 +42,9 @@ func directoryExists(filename string) bool {
 	return info.IsDir()
 }
 
-// fileExists checks if a file exists and is not a directory before we
+// FileExists checks if a file exists and is not a directory before we
 // try using it to prevent further errors.
-func fileExists(filename string) bool {
+func FileExists(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {
 		return false
