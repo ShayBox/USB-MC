@@ -10,7 +10,7 @@
 # USB-MC  
 
 A simple Rust program that downloads and runs the old Minecraft launcher  
-Notice: This project is unmaintained, I recommend just using [PolyMC].  
+Notice: This project is unmaintained, I recommend just using [PrismLauncher].  
 
 ### Requirements:
 | Minecraft | Recommended |
@@ -22,7 +22,7 @@ Notice: This project is unmaintained, I recommend just using [PolyMC].
 
 [Download](https://github.com/ShayBox/USB-MC/releases/latest)
 
-[PolyMC]: https://polymc.org
+[PrismLauncher]: https://prismlauncher.org
 [Java 8]: https://adoptium.net/temurin/releases?version=8
 [Java 16]: https://adoptium.net/temurin/releases?version=16
 [Java 17]:https://adoptium.net/temurin/releases?version=17
