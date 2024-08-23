@@ -1,16 +1,32 @@
 [package]
 name = "usb-mc"
 version = "1.0.0"
+authors = ["Shayne Hartford <shaybox@shaybox.com>"]
 edition = "2021"
+description = "A simple Rust program that downloads and runs the old Minecraft launcher."
+readme = "README.md"
+homepage = "https://git.shaybox.com/usb-mc"
+repository = "https://github.com/ShayBox/USB-MC"
+license = "MIT"
+keywords = ["USB", "MC", "Minecraft", "GameBand"]
+categories = ["games"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-reqwest = { version = "0.11.12", features = ["blocking"] }
+anyhow = "1"
+reqwest = { version = "0.12", features = ["blocking"] }
 
+# https://github.com/johnthagen/min-sized-rust
 [profile.release]
-strip = true
-opt-level = "z"
+strip = true      # Automatically strip symbols from the binary.
+opt-level = "z"   # Optimize for size.
 lto = true
 codegen-units = 1
 panic = "abort"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+cargo = { level = "warn", priority = -1 }
+multiple_crate_versions = "allow"

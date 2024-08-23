@@ -1,32 +1,29 @@
 use reqwest::blocking::Client;
 use std::{fs::File, process::Command};
 
-static WORK_DIR: &str = ".minecraft";
-static USER_AGENT: &str = "ShayBox/USB-MC";
-static URL: &str = "http://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar";
 static PATH: &str = "Minecraft.jar";
+static URL: &str = "http://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar";
+static USER_AGENT: &str = "ShayBox/USB-MC";
+static WORK_DIR: &str = ".minecraft";
 
-fn main() {
-    let work_dir = std::env::var("WORK_DIR").unwrap_or(WORK_DIR.to_string());
-    std::fs::create_dir_all(&work_dir).expect("Failed to create Minecraft folder");
+fn main() -> anyhow::Result<()> {
+    let path = std::env::var("PATH").unwrap_or_else(|_| PATH.to_string());
+    let url = std::env::var("URL").unwrap_or_else(|_| URL.to_string());
+    let user_agent = std::env::var("USER_AGENT").unwrap_or_else(|_| USER_AGENT.to_string());
+    let work_dir = std::env::var("WORK_DIR").unwrap_or_else(|_| WORK_DIR.to_string());
+    let client = Client::builder().user_agent(user_agent).build()?;
+    std::fs::create_dir_all(&work_dir)?;
 
-    let user_agent = std::env::var("USER_AGENT").unwrap_or(USER_AGENT.to_string());
-    let client = Client::builder()
-        .user_agent(user_agent)
-        .build()
-        .expect("Failed to build client");
+    let path = format!("{work_dir}/{path}");
+    let mut resp = client.get(url).send()?;
+    let mut file = File::create(&path)?;
+    resp.copy_to(&mut file)?;
 
-    let path = work_dir.clone() + "/" + PATH;
-    let mut resp = client.get(URL).send().expect("Failed to get response");
-    let mut file = File::create(&path).expect("Failed to create file");
-
-    resp.copy_to(&mut file).expect("Failed to write file");
-
-    let mut child = Command::new("java")
+    Command::new("java")
         .args(["-jar", &path, "--workDir", &work_dir])
         .args(std::env::args())
-        .spawn()
-        .expect("Failed to execute process");
+        .spawn()?
+        .wait()?;
 
-    child.wait().expect("Failed to wait for child process");
+    Ok(())
 }
